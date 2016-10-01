@@ -4,8 +4,14 @@ class Menu extends Component {
 
   constructor (props) {
     super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
-
+  handleClick(newPage) {
+    var { changeCurrentPage } = this.props
+    return () => {
+      changeCurrentPage(newPage)
+    }
+  }
   render () {
     return (
       <nav className="navbar navbar-default">
@@ -22,8 +28,8 @@ class Menu extends Component {
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li className="active"><a href="#">Category <span className="sr-only">(current)</span></a></li>
-              <li><a href="#">Link</a></li>
+              <li className="active"><a onClick={this.handleClick('category')} href="#">Category <span className="sr-only">(current)</span></a></li>
+              <li><a onClick={this.handleClick('product')} href="#">Product</a></li>
               <li className="dropdown">
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span className="caret"></span></a>
                 <ul className="dropdown-menu">
