@@ -3,12 +3,14 @@ var passport = require('passport')
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn
 var log = require('debug')('routes:index:log')
 var _ = require('lodash')
+var path = require('path')
 var User = require('../models/user')
 module.exports = router
 
 router.get('/', ensureLoggedIn(), function (req, res) {
-  // console.log('req', req);
-  res.render('index', {flash: req.flash('error')})
+  console.log('dirname', __dirname);
+  res.sendFile(path.join(__dirname + '/../public/index.html'));
+  // res.render('index')
 });
 router.get('/login', function (req, res, next) {
   res.render('login', {flash: req.flash('error')})

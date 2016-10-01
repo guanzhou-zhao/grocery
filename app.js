@@ -11,9 +11,12 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('./lib/bcrypt')
 var User = require('./models/user')
 var index = require('./routes')
+var category = require('./routes/category')
+var categoryApi = require('./routes/api/category')
 var app = express();
 
 app.use( bodyParser.urlencoded({ extended: true }) );
+app.use(bodyParser.json())
 // Create `ExpressHandlebars` instance with a default layout.
 var hbs = exphbs.create({
     defaultLayout: 'main',
@@ -41,6 +44,8 @@ passport.serializeUser(User.serializeUser);
 passport.deserializeUser(User.deserializeUser);
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use('/', index)
+app.use('/category', category)
+app.use('/api/v1/category', categoryApi)
+app.use(express.static('public/'))
 module.exports = app
