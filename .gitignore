@@ -36,6 +36,6 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-# Frontend components and bundle.js
-public/react-pages
+# Frontend components' modules and bundle.js
+public/react-pages/node_modules
 public/bundle.js
