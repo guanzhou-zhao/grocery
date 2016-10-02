@@ -13,6 +13,7 @@ var User = require('./models/user')
 var index = require('./routes')
 var category = require('./routes/category')
 var categoryApi = require('./routes/api/category')
+var productApi = require('./routes/api/product')
 var app = express();
 
 app.use( bodyParser.urlencoded({ extended: true }) );
@@ -47,5 +48,6 @@ app.use(passport.session());
 app.use('/', index)
 app.use('/category', category)
 app.use('/api/v1/category', categoryApi)
+app.use('/api/v1/product', productApi)
 app.use(express.static('public/'))
 module.exports = app
