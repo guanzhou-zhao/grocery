@@ -18,34 +18,35 @@ var ProductForm = React.createClass({
   getDataFromRefs: function (refs) {
     return _.mapValues(refs, (v) => v.value)
   },
-  getHandleSave: function() {
+  getHandleSave: function(id) {
     return () => {
       var { handleSave } = this.props
-      handleSave(this.getDataFromRefs(this.refs))
+      handleSave(this.getDataFromRefs(this.refs), id)
     }
   },
-  getHandleCancel: function() {
+  getHandleCancel: function(id) {
     return () => {
       var { handleCancel } = this.props
-      handleCancel()
+      handleCancel(id)
     }
   },
   render: function () {
     var { categories } = this.state
+    var { product } = this.props
     return (
       <form>
         <div className="form-group">
-          <input type="text" className="form-control" id="name" placeholder="name" ref="name" />
+          <input type="text" className="form-control" id="name" placeholder="name" ref="name" defaultValue={product && product.name}/>
         </div>
         <div className="form-group">
-          <input type="text" className="form-control" id="brand" placeholder="Brand" ref="brand" />
+          <input type="text" className="form-control" id="brand" placeholder="Brand" ref="brand" defaultValue={product && product.brand}/>
         </div>
         <div className="form-group">
-          <input type="number" className="form-control" id="price" placeholder="price" ref="price" />
+          <input type="number" className="form-control" id="price" placeholder="price" ref="price"  defaultValue={product && product.price}/>
         </div>
         <div className="form-group">
         <label>Category: </label>
-          <select id="category" ref="category_id">
+          <select id="category" ref="category_id"  defaultValue={product && product.category_id}>
             <option>=-select-=</option>
             {
               _.map(categories, (c) => {
@@ -54,8 +55,8 @@ var ProductForm = React.createClass({
             }
           </select>
         </div>
-        <button onClick={this.getHandleSave()} className="btn btn-default">Save</button>
-        <button onClick={this.getHandleCancel()} className="btn btn-default">Cancel</button>
+        <input type="button" onClick={this.getHandleSave(product && product.id)} className="btn btn-default" value="Save" />
+        <input type="button" onClick={this.getHandleCancel(product && product.id)} className="btn btn-default" value="Cancel"/>
       </form>
     )
   }

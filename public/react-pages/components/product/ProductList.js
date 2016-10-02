@@ -5,9 +5,8 @@ import ProductForm from './ProductForm'
 
 var ProductList = React.createClass({
   getInitialState: function () {
-    var { products } = this.props
     return {
-      editting: []
+      editting: new Set()
     }
   },
   handleDelete: function (id) {
@@ -24,9 +23,25 @@ var ProductList = React.createClass({
   handleEdit: function (id) {
     return () => {
       var { editting } = this.state
-      editting.push(id)
+      editting.add(id)
       this.setState(editting)
     }
+  },
+  handleCancel: function (id) {
+    var { editting } = this.state
+    editting.delete(id)
+    this.setState(editting)
+  },
+  handleEditSave: function (data, id) {
+    request
+      .put(`/api/v1/product/${id}`)
+      .send(data)
+      .end((err, res) => {
+        if (err) console.log(err)
+        this.handleCancel(id)
+        var { reloadProductList } = this.props
+        reloadProductList()
+      })
   },
   render: function () {
     var { editting } = this.state
@@ -46,7 +61,13 @@ var ProductList = React.createClass({
           {
             _.map(products, (p) => {
               return (
-                editting.indexOf(p.id) > -1 ?         <ProductForm product={p}/> : (
+                editting.has(p.id) ? (
+                  <tr key={p.id}>
+                    <td colSpan="5">
+                    <ProductForm product={p} handleCancel={this.handleCancel} handleSave={this.handleEditSave}/>
+                    </td>
+                  </tr>
+                ) : (
                  <tr key={p.id}>
                   <td>{p.name}</td>
                   <td>{p.brand}</td>
