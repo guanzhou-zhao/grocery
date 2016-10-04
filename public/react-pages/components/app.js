@@ -7,9 +7,13 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentPage: ''
+      currentPage: '',
+      pages: []
     }
     this.changeCurrentPage = this.changeCurrentPage.bind(this)
+  }
+  componentDidMount () {
+
   }
   changeCurrentPage (currentPage) {
     this.setState({currentPage})
