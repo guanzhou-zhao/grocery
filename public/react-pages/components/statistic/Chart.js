@@ -6,8 +6,7 @@ import _ from 'lodash'
 var Chart = React.createClass({
   render () {
     const styles = this.getStyles();
-    const dataSetOne = this.getDataSetOne();
-    const dataSetTwo = this.getDataSetTwo();
+    const {prices} = this.props
     return (
       <svg
         style={styles.parent}
@@ -65,40 +64,13 @@ var Chart = React.createClass({
           lineHeight={1.2}
           style={styles.labelOne}
         >
-          {"Economy \n % change on a year earlier"}
-        </VictoryLabel>
-
-        <VictoryLabel
-          x={425} y={70}
-          textAnchor="end"
-          verticalAnchor="end"
-          lineHeight={1.2}
-          style={styles.labelTwo}
-        >
-          {"Dinosaur exports\n $bn"}
+          {"Price \n $ NZD"}
         </VictoryLabel>
 
         <g transform={"translate(0, 40)"}>
-          <VictoryLabel
-            x={37} y={161}
-            textAnchor="middle"
-            verticalAnchor="end"
-            style={styles.axisOneCustomLabel}
-          >
-            {"+"}
-          </VictoryLabel>
-
-          <VictoryLabel
-            x={37} y={199}
-            textAnchor="middle"
-            verticalAnchor="end"
-            style={styles.axisOneCustomLabel}
-          >
-            {"-"}
-          </VictoryLabel>
 
           <VictoryAxis dependent
-            domain={[-10, 15]}
+            domain={[0, 10]}
             offsetX={50}
             orientation="left"
             standalone={false}
@@ -108,85 +80,29 @@ var Chart = React.createClass({
             }
           />
 
-          <VictoryAxis dependent
-            domain={[0, 50]}
-            orientation="right"
-            standalone={false}
-            style={styles.axisTwo}
-          />
-
           <VictoryAxis
             scale="time"
             standalone={false}
             style={styles.axisYears}
-            tickValues={[
-              new Date(1999, 1, 1),
-              new Date(2000, 1, 1),
-              new Date(2001, 1, 1),
-              new Date(2002, 1, 1),
-              new Date(2003, 1, 1),
-              new Date(2004, 1, 1),
-              new Date(2005, 1, 1),
-              new Date(2006, 1, 1),
-              new Date(2007, 1, 1),
-              new Date(2008, 1, 1),
-              new Date(2009, 1, 1),
-              new Date(2010, 1, 1),
-              new Date(2011, 1, 1),
-              new Date(2012, 1, 1),
-              new Date(2013, 1, 1),
-              new Date(2014, 1, 1),
-              new Date(2015, 1, 1),
-              new Date(2016, 1, 1)
-            ]}
-            tickFormat={
-              (x) => {
-                if (x.getFullYear() === 2000) {
-                  return x.getFullYear();
-                }
-                if (x.getFullYear() % 5 === 0) {
-                  return x.getFullYear().toString().slice(2);
-                }
-              }
-            }
+            tickValues={prices.map((p) => {
+              console.log(p)
+              return (new Date(p.start_at).getMonth()+1 + '-' + new Date(p.start_at).getDate())
+            })
+          }
           />
 
           <VictoryLine
-            data={[
-              {x: new Date(1999, 1, 1), y: 0},
-              {x: new Date(2014, 6, 1), y: 0}
-            ]}
+            data={prices}
             domain={{
-              x: [new Date(1999, 1, 1), new Date(2016, 1, 1)],
-              y: [-10, 15]
+              x: [new Date(2016, 8, 27), new Date(2016, 9, 10)],
+              y: [0, 10]
             }}
-            scale={{x: "time", y: "linear"}}
-            standalone={false}
-            style={styles.lineThree}
-          />
-
-          <VictoryLine
-            data={dataSetOne}
-            domain={{
-              x: [new Date(1999, 1, 1), new Date(2016, 1, 1)],
-              y: [-10, 15]
-            }}
+            x={'start_at'}
+            y={'price'}
             interpolation="monotoneX"
             scale={{x: "time", y: "linear"}}
             standalone={false}
             style={styles.lineOne}
-          />
-
-          <VictoryLine
-            data={dataSetTwo}
-            domain={{
-              x: [new Date(1999, 1, 1), new Date(2016, 1, 1)],
-              y: [0, 50]
-            }}
-            interpolation="monotoneX"
-            scale={{x: "time", y: "linear"}}
-            standalone={false}
-            style={styles.lineTwo}
           />
         </g>
       </svg>
@@ -218,7 +134,7 @@ var Chart = React.createClass({
         ticks: {
           size: (tick) => {
             const tickSize =
-              tick.getFullYear() % 5 === 0 ? 10 : 5;
+              new Date(tick.start_at).getFullYear() % 2 === 0 ? 10 : 5;
             return tickSize;
           },
           stroke: "black",

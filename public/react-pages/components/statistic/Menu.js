@@ -47,7 +47,6 @@ var Menu = React.createClass({
   },
   render () {
     var { categories, products, filter } = this.state
-    console.log(this.getFilteredProduct(products, filter));
     return (
       <div>
         <label>Category: </label>
