@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Menu from './Menu'
 import Category from './Category'
 import Product from './Product'
+import Statistic from './Statistic'
 class App extends Component {
 
   constructor (props) {
@@ -27,8 +28,11 @@ class App extends Component {
       case 'category':
         page = <Category />
         break
+      case 'price_chart':
+        page = <Statistic />
+        break
       default:
-        page = <Product />
+        page = <Statistic />
         break
     }
     return page
