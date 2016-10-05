@@ -8,7 +8,7 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentPage: '',
+      currentPage: 'price_chart',
       pages: []
     }
     this.changeCurrentPage = this.changeCurrentPage.bind(this)
@@ -41,7 +41,7 @@ class App extends Component {
     var { currentPage } = this.state
     return (
       <div>
-        <Menu changeCurrentPage={this.changeCurrentPage}/>
+        <Menu changeCurrentPage={this.changeCurrentPage} currentPage={currentPage}/>
         { this.getCurrentPage(currentPage) }
       </div>
     )

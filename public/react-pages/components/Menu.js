@@ -13,6 +13,7 @@ class Menu extends Component {
     }
   }
   render () {
+    var { currentPage } = this.props
     return (
       <nav className="navbar navbar-default">
         <div className="container-fluid">
@@ -28,9 +29,9 @@ class Menu extends Component {
 
           <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav">
-              <li><a onClick={this.handleClick('category')} href="#">Category <span className="sr-only">(current)</span></a></li>
-              <li className="active"><a onClick={this.handleClick('product')} href="#">Product</a></li>
-              <li className="dropdown">
+              <li className={currentPage === 'category' ? 'active' : null}><a onClick={this.handleClick('category')} href="#">Category <span className="sr-only">(current)</span></a></li>
+              <li className={currentPage === 'product' ? 'active' : null}><a onClick={this.handleClick('product')} href="#">Product</a></li>
+              <li className={`dropdown ${currentPage === 'price_chart' ? 'active' : null}`}>
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Statistic <span className="caret"></span></a>
                 <ul className="dropdown-menu">
                   <li><a onClick={this.handleClick('price_chart')} href="#">Product price</a></li>
