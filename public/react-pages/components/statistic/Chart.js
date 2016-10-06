@@ -85,7 +85,6 @@ var Chart = React.createClass({
             standalone={false}
             style={styles.axisYears}
             tickValues={prices.map((p) => {
-              console.log(p)
               return (new Date(p.start_at).getMonth()+1 + '-' + new Date(p.start_at).getDate())
             })
           }

@@ -7,7 +7,7 @@ var knex = require('../../db')
 module.exports = router
 
 router.get('/price', (req, res, next) => {
-  console.log(req.body);
+  console.log('req.body', req.body);
     knex
       .from('product as p')
       .innerJoin('price_history as hi', 'p.id', 'hi.product_id')

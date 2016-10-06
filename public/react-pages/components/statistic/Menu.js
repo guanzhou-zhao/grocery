@@ -42,15 +42,24 @@ var Menu = React.createClass({
       return products
     }
     return _.filter(products, (p) => {
-      return p.id === filter.categoryId
+      return p.category_id === Number(filter.categoryId)
     })
+  },
+  handleProductSelect() {
+    return () => {
+      var { setProductId } = this.props
+      var productId = this.refs.product_id.value
+      if (Number(productId)) {
+        setProductId(productId)
+      }
+    }
   },
   render () {
     var { categories, products, filter } = this.state
     return (
       <div>
         <label>Category: </label>
-          <select id="category" ref="category_id" onChange={this.setCategoryFilter()} defaultValue={0}>
+          <select id="category" ref="category_id" onChange={this.setCategoryFilter()} defaultValue={false}>
             <option value={false}>=-select-=</option>
               {
                 _.map(categories, (c, index) => {
@@ -59,8 +68,8 @@ var Menu = React.createClass({
               }
           </select>
           <label>Porduct: </label>
-            <select id="product" ref="product_id">
-              <option>=-select-=</option>
+            <select id="product" ref="product_id" onChange={this.handleProductSelect()} defaultValue={false}>
+              <option value={false}>=-select-=</option>
                 {
                   _.map(this.getFilteredProduct(products, filter), (p, index) => {
                     return <option key={index} value={p.id}>{p.name}</option>
